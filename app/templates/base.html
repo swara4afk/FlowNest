@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}FlowNest{% endblock %} · FlowNest</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container flex items-center justify-between">
+      <a href="{{ url_for('main.index') }}" class="brand">
+        <span class="dot"></span> FlowNest
+      </a>
+
+      {% if current_user is defined and current_user.is_authenticated %}
+      <ul class="nav-links flex">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Tasks</a></li>
+        <li><a href="#">Planner</a></li>
+        <li><a href="#">Journal</a></li>
+        <li><a href="#">Mood</a></li>
+        <li><a href="#">Statistics</a></li>
+      </ul>
+      <div class="flex items-center gap-3">
+        <span class="text-sm text-muted">Hi, {{ current_user.full_name.split(' ')[0] }}</span>
+        <a href="#" class="btn btn-outline btn-sm">Log out</a>
+      </div>
+      {% else %}
+      <div class="flex items-center gap-3">
+        <a href="#" class="btn btn-outline btn-sm">Log in</a>
+        <a href="#" class="btn btn-primary btn-sm">Sign up</a>
+      </div>
+      {% endif %}
+    </div>
+  </nav>
+
+  <main class="page-content">
+    <div class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      FlowNest — A Student Productivity &amp; Personal Management System
+    </div>
+  </footer>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="flex-col items-center justify-center" style="text-align:center; padding: var(--space-8) 0;">
+  <h1 class="text-2xl font-bold mb-2">Welcome to FlowNest 🌿</h1>
+  <p class="text-muted mb-4">Your calm, all-in-one space for tasks, planning, journaling, and mood tracking.</p>
+  <div class="card" style="max-width: 480px; margin: var(--space-6) auto 0; text-align:left;">
+    <p class="font-semibold mb-2">✅ Milestone 1: Project Foundation</p>
+    <ul class="text-sm text-muted" style="line-height:1.9;">
+      <li>• Flask app factory + config</li>
+      <li>• SQLite models: User, Task, PlannerEntry, JournalEntry, MoodEntry</li>
+      <li>• Base layout + navbar + design system CSS</li>
+      <li>• Modular folder structure (models / routes / templates / static)</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}
