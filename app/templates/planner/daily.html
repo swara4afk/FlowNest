@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Daily Planner{% endblock %}
+
+{% block content %}
+<div class="page-header flex items-center justify-between">
+  <div>
+    <h1>Daily Planner</h1>
+    <p>{{ selected_date.strftime('%A, %B %-d, %Y') }}{{ ' (Today)' if selected_date == today else '' }}</p>
+  </div>
+  <div class="flex gap-2">
+    <a href="{{ url_for('planner.daily', date=prev_date.isoformat()) }}" class="btn btn-outline btn-sm">← Prev</a>
+    <a href="{{ url_for('planner.daily', date=today.isoformat()) }}" class="btn btn-outline btn-sm">Today</a>
+    <a href="{{ url_for('planner.daily', date=next_date.isoformat()) }}" class="btn btn-outline btn-sm">Next →</a>
+    <a href="{{ url_for('planner.weekly') }}" class="btn btn-primary btn-sm">Weekly View</a>
+  </div>
+</div>
+
+<!-- Add entry form -->
+<div class="card mb-6">
+  <form method="POST" action="{{ url_for('planner.create') }}" class="flex items-end gap-3">
+    <input type="hidden" name="entry_date" value="{{ selected_date.isoformat() }}">
+    <input type="hidden" name="redirect_to" value="daily">
+
+    <div class="form-group" style="margin-bottom:0; width: 140px;">
+      <label class="form-label" for="time_slot">Time <span class="text-muted">(optional)</span></label>
+      <input class="form-control" type="text" id="time_slot" name="time_slot" placeholder="09:00 - 10:00">
+    </div>
+
+    <div class="form-group" style="margin-bottom:0; flex:1;">
+      <label class="form-label" for="content">What's the plan?</label>
+      <input class="form-control" type="text" id="content" name="content" placeholder="e.g. Review lecture notes" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+</div>
+
+<!-- Entries -->
+{% if entries %}
+<div class="flex-col gap-3">
+  {% for entry in entries %}
+  <div class="card flex items-center justify-between" style="{{ 'opacity: 0.6;' if entry.is_done else '' }}">
+    <div class="flex items-center gap-3">
+      <form method="POST" action="{{ url_for('planner.toggle', entry_id=entry.id) }}">
+        <button type="submit" class="btn btn-sm {{ 'btn-primary' if entry.is_done else 'btn-outline' }}">
+          {{ '✓' if entry.is_done else '○' }}
+        </button>
+      </form>
+      <div>
+        {% if entry.time_slot %}<span class="text-sm text-muted" style="margin-right: var(--space-2);">{{ entry.time_slot }}</span>{% endif %}
+        <span style="{{ 'text-decoration: line-through; color: var(--color-text-muted);' if entry.is_done else '' }}">{{ entry.content }}</span>
+      </div>
+    </div>
+    <form method="POST" action="{{ url_for('planner.delete', entry_id=entry.id) }}" onsubmit="return confirm('Remove this entry?');">
+      <input type="hidden" name="redirect_to" value="daily">
+      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card empty-state">
+  <p>Nothing planned for this day yet. Add something above.</p>
+</div>
+{% endif %}
+{% endblock %}

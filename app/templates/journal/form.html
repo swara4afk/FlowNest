@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit Entry' if mode == 'edit' else 'New Journal Entry' }}{% endblock %}
+
+{% block content %}
+<div class="flex justify-center">
+  <div class="card" style="max-width: 600px; width: 100%; margin-top: var(--space-4);">
+    <div class="page-header mb-4">
+      <h1 class="text-xl font-bold">{{ 'Edit Entry' if mode == 'edit' else 'New Journal Entry' }}</h1>
+    </div>
+
+    <form method="POST"
+          action="{{ url_for('journal.edit', entry_id=entry.id) if mode == 'edit' else url_for('journal.create') }}">
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="form-group">
+          <label class="form-label" for="entry_date">Date</label>
+          <input class="form-control" type="date" id="entry_date" name="entry_date" value="{{ entry_date_value }}" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="title">Title <span class="text-muted">(optional)</span></label>
+          <input class="form-control" type="text" id="title" name="title"
+                 value="{{ entry.title if entry and entry.title else '' }}" placeholder="e.g. A productive Monday">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="content">What happened today?</label>
+        <textarea class="form-control" id="content" name="content" rows="6"
+                  placeholder="Write freely about your day..." required>{{ entry.content if entry else '' }}</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="reflection">Reflection <span class="text-muted">(optional)</span></label>
+        <textarea class="form-control" id="reflection" name="reflection" rows="3"
+                  placeholder="What went well? What would you improve?">{{ entry.reflection if entry and entry.reflection else '' }}</textarea>
+      </div>
+
+      <div class="flex gap-3 mt-4">
+        <button type="submit" class="btn btn-primary">{{ 'Save Changes' if mode == 'edit' else 'Save Entry' }}</button>
+        <a href="{{ url_for('journal.index') }}" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

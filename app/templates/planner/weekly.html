@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Weekly Planner{% endblock %}
+
+{% block content %}
+<div class="page-header flex items-center justify-between">
+  <div>
+    <h1>Weekly Planner</h1>
+    <p>{{ week_start.strftime('%b %-d') }} – {{ week_end.strftime('%b %-d, %Y') }}</p>
+  </div>
+  <div class="flex gap-2">
+    <a href="{{ url_for('planner.weekly', start=prev_week.isoformat()) }}" class="btn btn-outline btn-sm">← Prev Week</a>
+    <a href="{{ url_for('planner.weekly') }}" class="btn btn-outline btn-sm">This Week</a>
+    <a href="{{ url_for('planner.weekly', start=next_week.isoformat()) }}" class="btn btn-outline btn-sm">Next Week →</a>
+    <a href="{{ url_for('planner.daily') }}" class="btn btn-primary btn-sm">Daily View</a>
+  </div>
+</div>
+
+<div class="grid" style="grid-template-columns: repeat(7, 1fr); gap: var(--space-3);">
+  {% for day in days %}
+  <div class="card" style="{{ 'border-color: var(--color-primary); background: var(--color-primary-light);' if day.date == today else '' }} min-height: 220px;">
+    <p class="font-semibold text-sm mb-1">{{ day.date.strftime('%a') }}</p>
+    <p class="text-sm text-muted mb-3">{{ day.date.strftime('%b %-d') }}</p>
+
+    {% for entry in day.entries %}
+      <div class="text-sm mb-2" style="{{ 'opacity:0.6;' if entry.is_done else '' }}">
+        <div class="flex items-center justify-between gap-1">
+          <span style="{{ 'text-decoration: line-through;' if entry.is_done else '' }}">
+            {% if entry.time_slot %}<strong>{{ entry.time_slot }}</strong><br>{% endif %}{{ entry.content }}
+          </span>
+        </div>
+        <div class="flex gap-1 mt-1">
+          <form method="POST" action="{{ url_for('planner.toggle', entry_id=entry.id) }}">
+            <button type="submit" class="btn btn-sm btn-outline" style="padding: 2px 8px;">{{ '✓' if entry.is_done else '○' }}</button>
+          </form>
+          <form method="POST" action="{{ url_for('planner.delete', entry_id=entry.id) }}" onsubmit="return confirm('Remove this entry?');">
+            <input type="hidden" name="redirect_to" value="weekly">
+            <button type="submit" class="btn btn-sm btn-danger" style="padding: 2px 8px;">×</button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+
+    <form method="POST" action="{{ url_for('planner.create') }}" class="mt-2">
+      <input type="hidden" name="entry_date" value="{{ day.date.isoformat() }}">
+      <input type="hidden" name="redirect_to" value="weekly">
+      <input class="form-control" style="font-size: 0.8125rem; padding: var(--space-2);" type="text" name="content" placeholder="+ Add">
+    </form>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

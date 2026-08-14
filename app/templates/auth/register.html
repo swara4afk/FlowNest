@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="flex justify-center">
+  <div class="card" style="max-width: 420px; width: 100%; margin-top: var(--space-6);">
+    <div class="page-header mb-4">
+      <h1 class="text-xl font-bold">Create your account</h1>
+      <p class="text-sm">Start organizing your student life in one place.</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('auth.register') }}" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="full_name">Full name</label>
+        <input class="form-control" type="text" id="full_name" name="full_name"
+               value="{{ full_name or '' }}" placeholder="Jordan Lee" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
+        <input class="form-control" type="email" id="email" name="email"
+               value="{{ email or '' }}" placeholder="you@university.edu" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-control" type="password" id="password" name="password"
+               placeholder="At least 6 characters" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="confirm_password">Confirm password</label>
+        <input class="form-control" type="password" id="confirm_password" name="confirm_password"
+               placeholder="Re-enter your password" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-full justify-center">Create account</button>
+    </form>
+
+    <p class="text-sm text-muted mt-4" style="text-align:center;">
+      Already have an account? <a href="{{ url_for('auth.login') }}" style="color: var(--color-primary-dark); font-weight:600;">Log in</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

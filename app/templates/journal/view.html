@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ entry.title if entry.title else 'Journal Entry' }}{% endblock %}
+
+{% block content %}
+<div class="flex justify-center">
+  <div style="max-width: 640px; width: 100%;">
+    <div class="page-header flex items-center justify-between">
+      <div>
+        <h1>{{ entry.title if entry.title else entry.entry_date.strftime('%A, %B %-d, %Y') }}</h1>
+        <p>{{ entry.entry_date.strftime('%A, %B %-d, %Y') }}</p>
+      </div>
+      <div class="flex gap-2">
+        <a href="{{ url_for('journal.edit', entry_id=entry.id) }}" class="btn btn-outline btn-sm">Edit</a>
+        <form method="POST" action="{{ url_for('journal.delete', entry_id=entry.id) }}" onsubmit="return confirm('Delete this journal entry?');">
+          <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <p style="white-space: pre-wrap; line-height: 1.7;">{{ entry.content }}</p>
+    </div>
+
+    {% if entry.reflection %}
+    <div class="card" style="background: var(--color-accent-light); border-color: var(--color-accent);">
+      <p class="font-semibold text-sm mb-2" style="color: var(--color-accent);">💭 Reflection</p>
+      <p style="white-space: pre-wrap; line-height: 1.7;">{{ entry.reflection }}</p>
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('journal.index') }}" class="text-sm mt-4" style="display:inline-block; color: var(--color-text-muted);">← Back to Journal</a>
+  </div>
+</div>
+{% endblock %}

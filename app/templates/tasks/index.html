@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Tasks{% endblock %}
+
+{% block content %}
+<div class="page-header flex items-center justify-between">
+  <div>
+    <h1>Task Manager</h1>
+    <p>{{ completed }} of {{ total }} tasks completed</p>
+  </div>
+  <a href="{{ url_for('tasks.create') }}" class="btn btn-primary">+ New Task</a>
+</div>
+
+<div class="flex gap-2 mb-4">
+  <a href="{{ url_for('tasks.index', status='all') }}"
+     class="btn btn-sm {{ 'btn-primary' if status_filter == 'all' else 'btn-outline' }}">All</a>
+  <a href="{{ url_for('tasks.index', status='pending') }}"
+     class="btn btn-sm {{ 'btn-primary' if status_filter == 'pending' else 'btn-outline' }}">Pending</a>
+  <a href="{{ url_for('tasks.index', status='completed') }}"
+     class="btn btn-sm {{ 'btn-primary' if status_filter == 'completed' else 'btn-outline' }}">Completed</a>
+</div>
+
+{% if tasks %}
+<div class="flex-col gap-3">
+  {% for task in tasks %}
+  <div class="card flex items-center justify-between"
+       style="{{ 'opacity: 0.6;' if task.is_completed else '' }}">
+    <div class="flex items-center gap-3">
+      <form method="POST" action="{{ url_for('tasks.toggle', task_id=task.id) }}">
+        <button type="submit" class="btn btn-sm {{ 'btn-primary' if task.is_completed else 'btn-outline' }}"
+                title="{{ 'Mark as pending' if task.is_completed else 'Mark as complete' }}">
+          {{ '✓' if task.is_completed else '○' }}
+        </button>
+      </form>
+      <div>
+        <p class="font-semibold" style="{{ 'text-decoration: line-through;' if task.is_completed else '' }}">
+          {{ task.title }}
+        </p>
+        {% if task.description %}
+          <p class="text-sm text-muted">{{ task.description }}</p>
+        {% endif %}
+        <div class="flex items-center gap-2 mt-1">
+          <span class="badge badge-{{ task.priority.lower() }}">{{ task.priority }}</span>
+          {% if task.due_date %}
+            <span class="text-sm" style="color: {{ 'var(--color-danger)' if (task.due_date < today and not task.is_completed) else 'var(--color-text-muted)' }};">
+              Due {{ task.due_date.strftime('%b %-d, %Y') }}
+              {% if task.due_date < today and not task.is_completed %} · Overdue{% endif %}
+            </span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a href="{{ url_for('tasks.edit', task_id=task.id) }}" class="btn btn-outline btn-sm">Edit</a>
+      <form method="POST" action="{{ url_for('tasks.delete', task_id=task.id) }}"
+            onsubmit="return confirm('Delete this task?');">
+        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card empty-state">
+  <p class="mb-3">No tasks here yet.</p>
+  <a href="{{ url_for('tasks.create') }}" class="btn btn-primary btn-sm">Create your first task</a>
+</div>
+{% endif %}
+{% endblock %}

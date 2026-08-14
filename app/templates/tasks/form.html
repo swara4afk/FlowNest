@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit Task' if mode == 'edit' else 'New Task' }}{% endblock %}
+
+{% block content %}
+<div class="flex justify-center">
+  <div class="card" style="max-width: 520px; width: 100%; margin-top: var(--space-4);">
+    <div class="page-header mb-4">
+      <h1 class="text-xl font-bold">{{ 'Edit Task' if mode == 'edit' else 'New Task' }}</h1>
+    </div>
+
+    <form method="POST"
+          action="{{ url_for('tasks.edit', task_id=task.id) if mode == 'edit' else url_for('tasks.create') }}">
+
+      <div class="form-group">
+        <label class="form-label" for="title">Title</label>
+        <input class="form-control" type="text" id="title" name="title"
+               value="{{ task.title if task else '' }}" placeholder="e.g. Finish literature review" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="description">Description <span class="text-muted">(optional)</span></label>
+        <textarea class="form-control" id="description" name="description" rows="3"
+                  placeholder="Any extra detail...">{{ task.description if task and task.description else '' }}</textarea>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="form-group">
+          <label class="form-label" for="priority">Priority</label>
+          <select class="form-control" id="priority" name="priority">
+            {% for p in ['Low', 'Medium', 'High'] %}
+              <option value="{{ p }}" {{ 'selected' if (task.priority if task else 'Medium') == p else '' }}>{{ p }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="due_date">Due date <span class="text-muted">(optional)</span></label>
+          <input class="form-control" type="date" id="due_date" name="due_date" value="{{ due_date_value }}">
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-4">
+        <button type="submit" class="btn btn-primary">{{ 'Save Changes' if mode == 'edit' else 'Create Task' }}</button>
+        <a href="{{ url_for('tasks.index') }}" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

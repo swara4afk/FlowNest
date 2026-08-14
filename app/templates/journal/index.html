@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Journal{% endblock %}
+
+{% block content %}
+<div class="page-header flex items-center justify-between">
+  <div>
+    <h1>Journal</h1>
+    <p>{{ entries|length }} {{ 'entry' if entries|length == 1 else 'entries' }}</p>
+  </div>
+  <a href="{{ url_for('journal.create') }}" class="btn btn-primary">+ New Entry</a>
+</div>
+
+{% if entries %}
+<div class="flex-col gap-3">
+  {% for entry in entries %}
+  <a href="{{ url_for('journal.view', entry_id=entry.id) }}" style="display:block;">
+    <div class="card">
+      <div class="flex items-center justify-between mb-2">
+        <p class="font-semibold">{{ entry.title if entry.title else entry.entry_date.strftime('%A, %B %-d, %Y') }}</p>
+        <span class="text-sm text-muted">{{ entry.entry_date.strftime('%b %-d, %Y') }}</span>
+      </div>
+      <p class="text-sm text-muted">
+        {{ entry.content[:160] }}{{ '…' if entry.content|length > 160 else '' }}
+      </p>
+      {% if entry.reflection %}
+        <p class="text-sm mt-2" style="color: var(--color-accent);">💭 Includes a reflection note</p>
+      {% endif %}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card empty-state">
+  <p class="mb-3">You haven't written anything yet. Journaling even a few lines a day helps you reflect on your progress.</p>
+  <a href="{{ url_for('journal.create') }}" class="btn btn-primary btn-sm">Write your first entry</a>
+</div>
+{% endif %}
+{% endblock %}

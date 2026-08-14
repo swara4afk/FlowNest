@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+<div class="empty-state" style="padding: var(--space-8) 0;">
+  <p class="text-2xl font-bold mb-2">404</p>
+  <p class="mb-4">We couldn't find the page you were looking for.</p>
+  <a href="{{ url_for('main.index') }}" class="btn btn-primary btn-sm">Back to FlowNest</a>
+</div>
+{% endblock %}

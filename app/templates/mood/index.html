@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Mood Tracker{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Mood Tracker</h1>
+  <p>{{ 'How are you feeling today?' if not todays_entry else "You've already checked in today — update it below if things changed." }}</p>
+</div>
+
+<!-- Mood selector -->
+<div class="card mb-6">
+  <form method="POST" action="{{ url_for('mood.log') }}">
+    <input type="hidden" name="entry_date" value="{{ today.isoformat() }}">
+
+    <div class="form-group">
+      <label class="form-label">Select your mood</label>
+      <div class="grid grid-cols-5 gap-2" style="grid-template-columns: repeat(5, 1fr);">
+        {% for option in mood_options %}
+        <label style="cursor:pointer;">
+          <input type="radio" name="mood" value="{{ option.key }}" style="display:none;"
+                 {{ 'checked' if todays_entry and todays_entry.mood == option.key }}
+                 onchange="document.querySelectorAll('.mood-choice').forEach(function(el){el.style.borderColor='var(--color-border)'; el.style.background='var(--color-surface)';}); this.parentElement.querySelector('.mood-choice').style.borderColor='var(--color-primary)'; this.parentElement.querySelector('.mood-choice').style.background='var(--color-primary-light)';">
+          <div class="mood-choice card" style="text-align:center; padding: var(--space-3); {{ 'border-color: var(--color-primary); background: var(--color-primary-light);' if todays_entry and todays_entry.mood == option.key else '' }}">
+            <div style="font-size: 1.75rem;">{{ option.emoji }}</div>
+            <div class="text-sm mt-1">{{ option.label }}</div>
+          </div>
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="notes">Notes <span class="text-muted">(optional)</span></label>
+      <input class="form-control" type="text" id="notes" name="notes"
+             value="{{ todays_entry.notes if todays_entry and todays_entry.notes else '' }}"
+             placeholder="What's contributing to how you feel?">
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{ "Update Today's Mood" if todays_entry else "Log Mood" }}</button>
+  </form>
+</div>
+
+<!-- History -->
+<div class="page-header">
+  <h1 class="text-xl">Mood History</h1>
+  <p>Last {{ history|length }} check-in{{ 's' if history|length != 1 else '' }}</p>
+</div>
+
+{% if history %}
+<div class="flex-col gap-2">
+  {% for entry in history %}
+  {% set opt = mood_lookup.get(entry.mood) %}
+  <div class="card flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <span style="font-size: 1.5rem;">{{ opt.emoji if opt else '❔' }}</span>
+      <div>
+        <p class="font-semibold text-sm">{{ opt.label if opt else entry.mood }} · {{ entry.entry_date.strftime('%a, %b %-d') }}</p>
+        {% if entry.notes %}<p class="text-sm text-muted">{{ entry.notes }}</p>{% endif %}
+      </div>
+    </div>
+    <form method="POST" action="{{ url_for('mood.delete', entry_id=entry.id) }}" onsubmit="return confirm('Remove this mood entry?');">
+      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card empty-state">
+  <p>No mood history yet — your check-ins will show up here.</p>
+</div>
+{% endif %}
+{% endblock %}
