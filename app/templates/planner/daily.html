@@ -5,7 +5,7 @@
 <div class="page-header flex items-center justify-between">
   <div>
     <h1>Daily Planner</h1>
-    <p>{{ selected_date.strftime('%A, %B %-d, %Y') }}{{ ' (Today)' if selected_date == today else '' }}</p>
+    <p>{{ selected_date.strftime('%A, %B %d, %Y') }}{{ ' (Today)' if selected_date == today else '' }}</p>
   </div>
   <div class="flex gap-2">
     <a href="{{ url_for('planner.daily', date=prev_date.isoformat()) }}" class="btn btn-outline btn-sm">← Prev</a>

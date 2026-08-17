@@ -54,7 +54,7 @@
     <div class="flex items-center gap-3">
       <span style="font-size: 1.5rem;">{{ opt.emoji if opt else '❔' }}</span>
       <div>
-        <p class="font-semibold text-sm">{{ opt.label if opt else entry.mood }} · {{ entry.entry_date.strftime('%a, %b %-d') }}</p>
+        <p class="font-semibold text-sm">{{ opt.label if opt else entry.mood }} · {{ entry.entry_date.strftime('%a, %b %d') }}</p>
         {% if entry.notes %}<p class="text-sm text-muted">{{ entry.notes }}</p>{% endif %}
       </div>
     </div>

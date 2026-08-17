@@ -42,7 +42,7 @@
           <span class="badge badge-{{ task.priority.lower() }}">{{ task.priority }}</span>
           {% if task.due_date %}
             <span class="text-sm" style="color: {{ 'var(--color-danger)' if (task.due_date < today and not task.is_completed) else 'var(--color-text-muted)' }};">
-              Due {{ task.due_date.strftime('%b %-d, %Y') }}
+              Due {{ task.due_date.strftime('%b %d, %Y') }}
               {% if task.due_date < today and not task.is_completed %} · Overdue{% endif %}
             </span>
           {% endif %}

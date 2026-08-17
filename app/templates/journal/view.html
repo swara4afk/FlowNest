@@ -6,8 +6,8 @@
   <div style="max-width: 640px; width: 100%;">
     <div class="page-header flex items-center justify-between">
       <div>
-        <h1>{{ entry.title if entry.title else entry.entry_date.strftime('%A, %B %-d, %Y') }}</h1>
-        <p>{{ entry.entry_date.strftime('%A, %B %-d, %Y') }}</p>
+        <h1>{{ entry.title if entry.title else entry.entry_date.strftime('%A, %B %d, %Y') }}</h1>
+        <p>{{ entry.entry_date.strftime('%A, %B %d, %Y') }}</p>
       </div>
       <div class="flex gap-2">
         <a href="{{ url_for('journal.edit', entry_id=entry.id) }}" class="btn btn-outline btn-sm">Edit</a>

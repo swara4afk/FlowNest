@@ -5,7 +5,7 @@
 <div class="page-header flex items-center justify-between">
   <div>
     <h1>Weekly Planner</h1>
-    <p>{{ week_start.strftime('%b %-d') }} – {{ week_end.strftime('%b %-d, %Y') }}</p>
+    <p>{{ week_start.strftime('%b %d') }} – {{ week_end.strftime('%b %d, %Y') }}</p>
   </div>
   <div class="flex gap-2">
     <a href="{{ url_for('planner.weekly', start=prev_week.isoformat()) }}" class="btn btn-outline btn-sm">← Prev Week</a>
@@ -19,7 +19,7 @@
   {% for day in days %}
   <div class="card" style="{{ 'border-color: var(--color-primary); background: var(--color-primary-light);' if day.date == today else '' }} min-height: 220px;">
     <p class="font-semibold text-sm mb-1">{{ day.date.strftime('%a') }}</p>
-    <p class="text-sm text-muted mb-3">{{ day.date.strftime('%b %-d') }}</p>
+    <p class="text-sm text-muted mb-3">{{ day.date.strftime('%b %d') }}</p>
 
     {% for entry in day.entries %}
       <div class="text-sm mb-2" style="{{ 'opacity:0.6;' if entry.is_done else '' }}">

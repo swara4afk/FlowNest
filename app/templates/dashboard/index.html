@@ -4,7 +4,7 @@
 {% block content %}
 <div class="page-header">
   <h1>{{ greeting }}, {{ current_user.full_name.split(' ')[0] }} 👋</h1>
-  <p>{{ today.strftime('%A, %B %-d, %Y') }} — here's where things stand today.</p>
+  <p>{{ today.strftime('%A, %B %d, %Y') }} — here's where things stand today.</p>
 </div>
 
 <!-- Quick statistics -->
@@ -76,7 +76,7 @@
             <span>{{ task.title }}</span>
             <span class="flex items-center gap-2">
               <span class="badge badge-{{ task.priority.lower() }}">{{ task.priority }}</span>
-              <span class="text-muted">{{ task.due_date.strftime('%b %-d') }}</span>
+              <span class="text-muted">{{ task.due_date.strftime('%b %d') }}</span>
             </span>
           </li>
         {% endfor %}
