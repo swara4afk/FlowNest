@@ -41,6 +41,7 @@ def create_app(env: str = None) -> Flask:
     from app.routes.journal import journal_bp
     from app.routes.mood import mood_bp
     from app.routes.stats import stats_bp
+
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp)
