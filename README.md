@@ -76,11 +76,11 @@ Students often spread their academic and personal lives across a task app, a sep
 
 | Dashboard | Task Manager | Planner |
 |---|---|---|
-| `"C:\Users\khatp\OneDrive\Documents\Screenshots\dashboard.png"` | `"C:\Users\khatp\OneDrive\Documents\Screenshots\tasks.png"` | `"C:\Users\khatp\OneDrive\Documents\Screenshots\planner.png"` |
+| `docs/screenshots/dashboard.png` | `docs/screenshots/tasks.png` | `docs/screenshots/planner.png` |
 
 | Journal | Mood Tracker | Statistics |
 |---|---|---|
-| `"C:\Users\khatp\OneDrive\Documents\Screenshots\journal.png"` | `"C:\Users\khatp\OneDrive\Documents\Screenshots\mood.png"` | `"C:\Users\khatp\OneDrive\Documents\Screenshots\statistics.png"` |
+| `docs/screenshots/journal.png` | `docs/screenshots/mood.png` | `docs/screenshots/statistics.png` |
 
 ---
 
