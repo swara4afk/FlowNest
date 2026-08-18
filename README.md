@@ -76,11 +76,11 @@ Students often spread their academic and personal lives across a task app, a sep
 
 | Dashboard | Task Manager | Planner |
 |---|---|---|
-| `docs/screenshots/dashboard.png` | `docs/screenshots/tasks.png` | `docs/screenshots/planner.png` |
+| `flownest/docs/screenshots/dashboard.png` | `flownest/docs/screenshots/tasks.png` | `flownest/docs/screenshots/tasks.png` |
 
 | Journal | Mood Tracker | Statistics |
 |---|---|---|
-| `docs/screenshots/journal.png` | `docs/screenshots/mood.png` | `docs/screenshots/statistics.png` |
+| `flownest/docs/screenshots/dashboard.png` | `flownest/docs/screenshots/mood.png` | `flownest/docs/screenshots/statistics.png` |
 
 ---
 
