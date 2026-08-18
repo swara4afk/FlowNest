@@ -225,17 +225,6 @@ A few deliberate simplifications, made with a portfolio project's scope in mind:
 - **Cross-platform date formatting** — templates use `%d` (not the Linux/macOS-only `%-d`) so the app runs identically on Windows, macOS, and Linux without `strftime` crashes.
 - **SQLite path built with forward slashes** (`pathlib.Path(...).as_posix()`) rather than `os.path.join()`, since a raw Windows path with backslashes isn't a valid `sqlite:///` URI.
 
-## Roadmap
-
-- [ ] CSRF protection (Flask-WTF)
-- [ ] Flask-Migrate for schema migrations
-- [ ] Task subtasks / checklists
-- [ ] Recurring tasks and planner entries
-- [ ] Email-based password reset
-- [ ] Export journal/statistics data (CSV/PDF)
-- [ ] Dark mode
-- [ ] Deployment guide (Render/Railway + persistent storage)
-
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
