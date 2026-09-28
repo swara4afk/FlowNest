@@ -202,7 +202,7 @@ cp .env.example .env
 python run.py
 ```
 
-The app will be available at **http://127.0.0.1:5000**. The SQLite database and all tables are created automatically on first run.
+The app will be available at **https://flownest-o0v4.onrender.com/**. The SQLite database and all tables are created automatically on first run.
 
 ## Usage
 
